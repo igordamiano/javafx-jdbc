@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alerts;
@@ -35,12 +36,16 @@ public class ManViewController implements Initializable {
 	
 	@FXML
 	public void onMenuItemDepartmentAction() {
-		loadView2("/gui/DepartmentList.fxml");
+		loadView("/gui/DepartmentList.fxml", (DepartmentListController controller) -> {
+			controller.setDepartmentService(new DepartmentService());
+			controller.updateTableView();
+		});
 	}
 
 	@FXML
 	public void onMenuItemAboutAction() {
-		loadView("/gui/About.fxml");
+		// passa uma função que não faz nada
+		loadView("/gui/About.fxml", x->{});
 	}
 	
 	@Override
@@ -48,7 +53,7 @@ public class ManViewController implements Initializable {
 	}
 	
 	// Abrir janela
-	private synchronized void loadView(String absoluteName) {
+	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			VBox newVBox = loader.load();
@@ -68,6 +73,10 @@ public class ManViewController implements Initializable {
 			// Agora adicionar os filhos no MainView
 			mainVBox.getChildren().add(mainMenu); // são os menus da MainView: registration:Seller/Department..About
 			mainVBox.getChildren().addAll(newVBox.getChildren()); // adiciona os filhos que chegam por parametro
+			
+			// vai executar os parametros
+			T controller = loader.getController();
+			initializingAction.accept(controller);
 			
 			
 		} catch (IOException e) {
