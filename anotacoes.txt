@@ -1,0 +1,16 @@
+model.entities
+ Classes de domínios do banco de dados
+ 
+model.dao
+interfaces com as operações a serem implementadas na classes model.dao.impl
+
+model.dao.impl
+classes que implementam as operações das interfaces
+
+model.dao.DaoFactory.java
+cria uma fábrica de dao utilizando o tipo da interface no método, retornando a implementação model.dao.impl.Classe
+
+application
+nosso programa não tem acesso as implementções 
+SellerDao sellerDao = DaoFactory.createSellerDao();
+injeção de dependencia sem explicitar a implementação 
