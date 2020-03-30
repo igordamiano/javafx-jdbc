@@ -31,6 +31,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Seller;
+import model.services.DepartmentService;
 import model.services.SellerService;
 
 public class SellerListController implements Initializable, DataChangeListener {
@@ -120,7 +121,10 @@ public class SellerListController implements Initializable, DataChangeListener {
 			// Pegar o controller da tela que acabou de carregar (acima)
 			SellerFormController controller = loader.getController();
 			controller.setSeller(obj); // Carrega o objeto
-			controller.setSellerService(new SellerService()); // injeta o service
+			controller.setServices(new SellerService(), new DepartmentService()); // injeta o service Seller e Department
+			// carregar o combo Departamento
+			controller.loadAssociatedObjects();
+			
 			// inscrever o evento para ficar escutando e atualizar lista departamento
 			controller.subscribeDataChangeListeners(this);
 
@@ -136,6 +140,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 			dialogStage.showAndWait();
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 
