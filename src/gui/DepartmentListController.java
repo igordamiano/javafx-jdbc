@@ -92,6 +92,7 @@ public class DepartmentListController implements Initializable {
 			// Pegar o controller da tela que acabou de carregar (acima)
 			DepartmentFormController controller = loader.getController();
 			controller.setDepartment(obj); // Carrega o objeto
+			controller.setDepartmentService(new DepartmentService()); // injeta o service
 			controller.updateFormData(); // carrega os dados do objeto na tela
 			
 			// Dialog é um palco-stage na frente do outro
