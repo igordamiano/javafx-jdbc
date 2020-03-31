@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox;
 import model.services.DepartmentService;
 import model.services.SellerService;
 
-public class ManViewController implements Initializable {
+public class MainViewController implements Initializable {
 
 	@FXML
 	private MenuItem menuItemSeller;
